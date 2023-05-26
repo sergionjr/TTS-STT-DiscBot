@@ -1,43 +1,69 @@
-import * as discord from 'discord.js';
+import { Client, GatewayIntentBits} from 'discord.js';
 import dotenv from 'dotenv';
+import { myInterface } from './stt';
 
 dotenv.config({path: '../.env'});
-// 
 
-// const ClientOptions: ClientOptions = {
-//     intents: [
-//         'GUILDS',
-//         'GUILD_MESSAGES',
-//         'GUILD_MESSAGE_REACTIONS',
-//         'GUILD_VOICE_STATES',
-//         'GUILD_PRESENCES',
-//         'GUILD_MEMBERS',
-//         'GUILD_BANS',
-//         'GUILD_EMOJIS_AND_STICKERS',
-//         'GUILD_INTEGRATIONS',
-//         'GUILD_WEBHOOKS',
-//         'GUILD_INVITES',
-//         'GUILD_VOICE_STATES',
-//         'GUILD_PRESENCES',
-//         'GUILD_MESSAGES',
-//         'GUILD_MESSAGE_REACTIONS',
-//         'GUILD_MESSAGE_TYPING',
-//         'DIRECT_MESSAGES',
-//         'DIRECT_MESSAGE_REACTIONS',
-//         'DIRECT_MESSAGE_TYPING'
-//     ]};
+// initiate a clientoptions variable
 
-// const client = new Client(ClientOptions);
+const client = new Client({intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildMessageTyping,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.GuildEmojisAndStickers,
+    GatewayIntentBits.GuildIntegrations,
+    GatewayIntentBits.GuildWebhooks,
+    GatewayIntentBits.GuildInvites,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildMessageTyping,
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.DirectMessageReactions,
+    GatewayIntentBits.DirectMessageTyping,
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildEmojisAndStickers,
+    GatewayIntentBits.GuildIntegrations,
+    GatewayIntentBits.GuildWebhooks,
+    GatewayIntentBits.GuildInvites,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildMessageTyping,
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.DirectMessageReactions,
+    GatewayIntentBits.DirectMessageTyping
 
-// client.once('ready', () => {
-//     console.log('Ready!');
-// });
+]});
 
-console.log(process.env.DISCORD_API_KEY);
-console.log(process.env.ENVTEST);
+const myObject: myInterface = {
+    name: 'John',
+    age: 42
+};
+
+
+
+client.once('ready', () => {
+    console.log('Ready!');
+});
+
+client.on('messageCreate', message => {
+    if (message.author.bot) return;
+
+    message.channel.send(`Message Received by user: ${message.author.username}`);
+    console.log(message.content);
+});
+
+
+
 
 console.log("End");
 
-
-// client.login(process.env.TOKEN);
+// console.log(process.env.BOT_TOKEN);
+client.login(process.env.BOT_TOKEN);
 
