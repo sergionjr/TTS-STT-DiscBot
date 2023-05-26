@@ -1,6 +1,7 @@
 import { Client, GatewayIntentBits} from 'discord.js';
 import dotenv from 'dotenv';
 import { myInterface } from './stt';
+import { commands } from './commands';
 
 dotenv.config({path: '../.env'});
 
