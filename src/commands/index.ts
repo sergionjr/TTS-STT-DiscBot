@@ -7,7 +7,9 @@ export const commands = {
     .setDescription("This is a test command"),
     myvar: "testvar", 
 
-async execute(interaction: any) {
+    async execute(interaction: any) {
         await interaction.reply("This is a test command");
     }
+
+
 }

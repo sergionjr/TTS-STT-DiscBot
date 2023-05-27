@@ -1,6 +1,6 @@
 import { Client, GatewayIntentBits} from 'discord.js';
 import dotenv from 'dotenv';
-import { myInterface } from './stt';
+import { myInterface } from './commands/stt';
 import { commands } from './commands';
 
 dotenv.config({path: '../.env'});
@@ -53,18 +53,13 @@ client.once('ready', () => {
     console.log('Ready!');
 });
 
-client.on('messageCreate', message => {
-    if (message.author.bot) return;
-
-    message.channel.send(`Message Received by user: ${message.author.username}`);
-    console.log(message.content);
-});
 
 
 
 
-console.log("End");
 
-// console.log(process.env.BOT_TOKEN);
+
+
+console.log(`Preparing to log in... Discord token: ${process.env.BOT_TOKEN}`);
 client.login(process.env.BOT_TOKEN);
 
