@@ -1,12 +1,12 @@
-import { Client, GatewayIntentBits} from 'discord.js';
+import { Client, Collection, GatewayIntentBits} from 'discord.js';
 import dotenv from 'dotenv';
-import { myInterface } from './commands/stt';
-import { commands } from './commands';
+import { Command } from './commands/Command';
+import fs from 'fs';
+import path from 'path';
 
 dotenv.config({path: '../.env'});
-
-// initiate a clientoptions variable
-
+const commands = new Collection<string, Command>();
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.ts'));
 const client = new Client({intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMembers,
@@ -42,15 +42,27 @@ const client = new Client({intents: [
 
 ]});
 
-const myObject: myInterface = {
-    name: 'John',
-    age: 42
-};
+for (const file of commandFiles){
+    const command = require(`./commands/${file}`);
+    commands.set(command.data.name, command);
+}
 
 
 
-client.once('ready', () => {
+
+
+
+
+client.once('ready', async () => {
     console.log('Ready!');
+
+    for (const command of commands.values()){
+        await client.application?.commands.create(command.data.toJSON());
+    }
+
+    setTimeout(() => {
+        console.log("Timeout");
+    })
 });
 
 
