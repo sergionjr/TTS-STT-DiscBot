@@ -5,8 +5,9 @@ import fs from 'fs';
 import path from 'path';
 
 dotenv.config({path: '../.env'});
+
 const commands = new Collection<string, Command>();
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.ts'));
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.ts') && file !== 'Command.ts');
 const client = new Client({intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMembers,
@@ -42,10 +43,22 @@ const client = new Client({intents: [
 
 ]});
 
-for (const file of commandFiles){
-    const command = require(`./commands/${file}`);
-    commands.set(command.data.name, command);
+async function loadCommands(){
+    for (const file of commandFiles){
+        console.log("File: ", file);
+        
+        const commandModule = await import(path.join(__dirname, './commands', file));    
+        const command: Command = commandModule.slashCmd;
+        console.log("Command: ", command);
+        commands.set(command.data.name, command);
+
+    }
 }
+
+loadCommands();
+
+
+
 
 
 
@@ -55,11 +68,11 @@ for (const file of commandFiles){
 
 client.once('ready', async () => {
     console.log('Ready!');
-
+    
     for (const command of commands.values()){
         await client.application?.commands.create(command.data.toJSON());
     }
-
+    
     setTimeout(() => {
         console.log("Timeout");
     })
@@ -75,3 +88,17 @@ client.once('ready', async () => {
 console.log(`Preparing to log in... Discord token: ${process.env.BOT_TOKEN}`);
 client.login(process.env.BOT_TOKEN);
 
+
+// for (const file of commandFiles){
+    
+//     console.log("File: ", file);
+
+//     const command = require(`./commands/${file}`);
+    
+//     console.log("Command: ", command);
+//     // console.log("Command.data: ", command.data);
+//     // console.log("Command.data.name: ", command.data.name);
+
+
+//     commands.set(command.slashCmd.name, command);
+// }
