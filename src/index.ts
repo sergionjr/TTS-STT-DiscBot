@@ -44,15 +44,25 @@ const client = new Client({intents: [
 ]});
 
 async function loadCommands(){
-    for (const file of commandFiles){
-        console.log("File: ", file);
-        
-        const commandModule = await import(path.join(__dirname, './commands', file));    
-        const command: Command = commandModule.slashCmd;
-        console.log("Command: ", command);
-        commands.set(command.data.name, command);
+    console.log("Loading commands...");
+    const file = commandFiles[0];
+    console.log("File: ", file);
+    const commandModule = await import(path.join(__dirname, './commands', file));
+    const command: Command = commandModule.default;
+    console.log("Command: ", command);
 
-    }
+    // for (const file of commandFiles){
+    //     console.log("File: ", file);
+        
+    //     const commandModule = await import(path.join(__dirname, './commands', file));    
+    //     const command: Command = commandModule.default;
+    //     console.log("Command: ", command);
+    //     commands.set(command.data.name, command);
+
+    commands.set(command.data.name, command);
+    console.log("Final Commands List: ", commands);
+
+    // }
 }
 
 loadCommands();
@@ -68,14 +78,31 @@ loadCommands();
 
 client.once('ready', async () => {
     console.log('Ready!');
+
+    // list all client guilds
+    client.guilds.cache.forEach((guild) => {
+        console.log(guild.name);
+        console.log(guild.id);
+        console.log(guild.ownerId); 
     
+    });
+
+    // Development Server guildId
+    // const guildId = process.env.DEVELOPMENT_GUILD_ID;
+    // cast guildid to an int
+    
+    const guild = client.guilds.fetch(`${process.env.DEVELOPMENT_GUILD_ID}`);
+
+
+
     for (const command of commands.values()){
-        await client.application?.commands.create(command.data.toJSON());
+        // await client.application?.commands.create(command.data.toJSON());
+
     }
     
-    setTimeout(() => {
-        console.log("Timeout");
-    })
+    // setTimeout(() => {
+    //     console.log("Timeout");
+    // })
 });
 
 
