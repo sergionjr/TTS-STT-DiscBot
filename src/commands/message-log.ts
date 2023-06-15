@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import { Command } from "./Command";
 
-const slashCmd: Command = {
+const messageLogCmd: Command = {
     data: new SlashCommandBuilder()
     .setName('message-log')
     .setDescription('Audits the user\'s message and information'),
@@ -13,4 +13,4 @@ const slashCmd: Command = {
         },
     };
 
-export default slashCmd;
+export default messageLogCmd;
