@@ -1,8 +1,13 @@
 import { Client, Collection, GatewayIntentBits} from 'discord.js';
 import dotenv from 'dotenv';
-import { Command } from './commands/Command';
 import fs from 'fs';
 import path from 'path';
+
+import { ttsEngine } from './services/ttsService';
+import { sttEngine } from './services/sttService';
+
+import { Command } from './commands/Command';
+import * as  from './commands/message-log'
 
 dotenv.config({path: '../.env'});
 
@@ -42,6 +47,30 @@ const client = new Client({intents: [
     GatewayIntentBits.DirectMessageTyping
 
 ]});
+// Fresh insertion point
+
+client.on('ready', () => {
+    console.log(`Logged in as ${client.user?.tag}`);
+});
+
+client.on('interactionCreate', async (interaction) => {
+    if (!interaction.isCommand()) return;
+
+    switch (interaction.commandName){
+        case 'audio':
+            await audioCommand
+    }
+
+})
+
+
+
+
+
+
+
+
+// Old
 
 async function loadCommands(){
     console.log("Loading commands...");
