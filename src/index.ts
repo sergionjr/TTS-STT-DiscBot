@@ -82,31 +82,31 @@ client.login(process.env.BOT_TOKEN).then(async () => {
 
 
 
-// // Old
+// Old
 
-// async function loadCommands(){
-//     console.log("Loading commands...");
-//     const file = commandFiles[0];
-//     console.log("File: ", file);
-//     const commandModule = await import(path.join(__dirname, './commands', file));
-//     const command: Command = commandModule.default;
-//     console.log("Command: ", command);
+async function loadCommands(){
+    console.log("Loading commands...");
+    const file = commandFiles[0];
+    console.log("File: ", file);
+    const commandModule = await import(path.join(__dirname, './commands', file));
+    const command: Command = commandModule.default;
+    console.log("Command: ", command);
 
-//     // for (const file of commandFiles){
-//     //     console.log("File: ", file);
+    // for (const file of commandFiles){
+    //     console.log("File: ", file);
         
-//     //     const commandModule = await import(path.join(__dirname, './commands', file));    
-//     //     const command: Command = commandModule.default;
-//     //     console.log("Command: ", command);
-//     //     commands.set(command.data.name, command);
+    //     const commandModule = await import(path.join(__dirname, './commands', file));    
+    //     const command: Command = commandModule.default;
+    //     console.log("Command: ", command);
+    //     commands.set(command.data.name, command);
 
-//     commands.set(command.data.name, command);
-//     console.log("Final Commands List: ", commands);
+    commands.set(command.data.name, command);
+    console.log("Final Commands List: ", commands);
 
-//     // }
-// }
+    // }
+}
 
-// loadCommands();
+loadCommands();
 
 
 
